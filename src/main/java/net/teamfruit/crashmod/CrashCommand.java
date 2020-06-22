@@ -8,6 +8,7 @@ import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.SPacketSpawnMob;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.CommandBlockBaseLogic;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -43,6 +44,10 @@ public class CrashCommand extends CommandBase {
         return 3;
     }
 
+    @Override public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+        return sender instanceof CommandBlockBaseLogic || super.checkPermission(server, sender);
+    }
+
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length == 0) {
@@ -60,14 +65,7 @@ public class CrashCommand extends CommandBase {
     }
 
     @Override public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
-        if (args.length == 1) {
-            String arg = args[0];
-            List<String> players = Arrays.asList(server.getOnlinePlayerNames());
-            if (arg.length() > 0)
-                players = players.stream().filter(e -> StringUtils.startsWithIgnoreCase(e, arg)).collect(Collectors.toList());
-            return players;
-        }
-        return Collections.emptyList();
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : super.getTabCompletions(server, sender, args, targetPos);
     }
 
     private void crash(final EntityPlayerMP p) {
