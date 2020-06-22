@@ -1,0 +1,16 @@
+[
+    {
+        "modid": "crashmod",
+        "name": "CrashMod",
+        "description": "Client Crash Mod for Server Side",
+        "version": "${version}",
+        "mcversion": "${mcversion}",
+        "url": "https://www.teamfruit.net",
+        "updateUrl": "",
+        "authorList": ["Kamesuta"],
+        "credits": "",
+        "logoFile": "",
+        "screenshots": [],
+        "dependencies": []
+    }
+]
